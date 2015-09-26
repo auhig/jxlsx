@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 	xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+	<sheetPr>
+		<tabColor rgb="FFFF0000" />
+	</sheetPr>
 	<dimension ref="A1" />
 	<sheetViews>
-		<sheetView workbookViewId="0" />
+		<sheetView workbookViewId="0">
+			<selection activeCell="B2" sqref="B2" />
+		</sheetView>
 	</sheetViews>
 	<sheetFormatPr defaultRowHeight="13.5" />
 	<sheetData />

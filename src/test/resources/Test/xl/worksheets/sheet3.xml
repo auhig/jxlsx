@@ -3,7 +3,9 @@
 	xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
 	<dimension ref="A1" />
 	<sheetViews>
-		<sheetView workbookViewId="0" />
+		<sheetView workbookViewId="0">
+			<selection activeCell="C3" sqref="C3" />
+		</sheetView>
 	</sheetViews>
 	<sheetFormatPr defaultRowHeight="13.5" />
 	<sheetData />

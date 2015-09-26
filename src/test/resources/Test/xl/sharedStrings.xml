@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"
-	count="18" uniqueCount="17">
+	count="20" uniqueCount="19">
 	<si>
 		<t>常规</t>
 	</si>
@@ -51,5 +51,13 @@
 	</si>
 	<si>
 		<t>之前为空行</t>
+	</si>
+	<si>
+		<t>合并单元格</t>
+		<phoneticPr fontId="2" type="noConversion" />
+	</si>
+	<si>
+		<t>还是合并单元格</t>
+		<phoneticPr fontId="2" type="noConversion" />
 	</si>
 </sst>
