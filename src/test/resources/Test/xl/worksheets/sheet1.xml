@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"
+	xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+	<dimension ref="B3:D19" />
+	<sheetViews>
+		<sheetView tabSelected="1" workbookViewId="0" />
+	</sheetViews>
+	<sheetFormatPr defaultRowHeight="13.5" />
+	<cols>
+		<col min="2" max="2" width="13.875" bestFit="1" customWidth="1" />
+		<col min="3" max="4" width="15" bestFit="1" customWidth="1" />
+	</cols>
+	<sheetData>
+		<row r="3" spans="2:4" ht="14.25">
+			<c r="B3" s="4" t="s">
+				<v>0</v>
+			</c>
+			<c r="C3" s="1" t="s">
+				<v>1</v>
+			</c>
+			<c r="D3" s="4">
+				<v>12</v>
+			</c>
+		</row>
+		<row r="4" spans="2:4" ht="14.25">
+			<c r="B4" s="4" t="s">
+				<v>2</v>
+			</c>
+			<c r="C4" s="1">
+				<v>12.345000000000001</v>
+			</c>
+			<c r="D4" s="1">
+				<v>22.344999999999999</v>
+			</c>
+		</row>
+		<row r="5" spans="2:4" ht="14.25">
+			<c r="B5" s="4" t="s">
+				<v>3</v>
+			</c>
+			<c r="C5" s="5">
+				<v>1234567.8899999999</v>
+			</c>
+			<c r="D5" s="5">
+				<v>1234566.8899999999</v>
+			</c>
+		</row>
+		<row r="6" spans="2:4" ht="14.25">
+			<c r="B6" s="4" t="s">
+				<v>4</v>
+			</c>
+			<c r="C6" s="6">
+				<v>123456.78</v>
+			</c>
+			<c r="D6" s="6">
+				<v>123456.88</v>
+			</c>
+		</row>
+		<row r="7" spans="2:4" ht="14.25">
+			<c r="B7" s="4" t="s">
+				<v>5</v>
+			</c>
+			<c r="C7" s="2">
+				<v>42005</v>
+			</c>
+			<c r="D7" s="2">
+				<v>42006</v>
+			</c>
+		</row>
+		<row r="8" spans="2:4" ht="14.25">
+			<c r="B8" s="4" t="s">
+				<v>6</v>
+			</c>
+			<c r="C8" s="3">
+				<v>0.58287037037037037</v>
+			</c>
+			<c r="D8" s="3">
+				<v>1.5828703703703704</v>
+			</c>
+		</row>
+		<row r="9" spans="2:4" ht="14.25">
+			<c r="B9" s="4" t="s">
+				<v>7</v>
+			</c>
+			<c r="C9" s="7">
+				<v>1.23</v>
+			</c>
+			<c r="D9" s="7">
+				<v>1.1299999999999999</v>
+			</c>
+		</row>
+		<row r="10" spans="2:4" ht="14.25">
+			<c r="B10" s="4" t="s">
+				<v>8</v>
+			</c>
+			<c r="C10" s="8">
+				<v>1.5</v>
+			</c>
+			<c r="D10" s="8">
+				<v>2.5</v>
+			</c>
+		</row>
+		<row r="11" spans="2:4" ht="14.25">
+			<c r="B11" s="4" t="s">
+				<v>9</v>
+			</c>
+			<c r="C11" s="9">
+				<v>1000</v>
+			</c>
+			<c r="D11" s="9">
+				<v>2000</v>
+			</c>
+		</row>
+		<row r="12" spans="2:4" ht="14.25">
+			<c r="B12" s="4" t="s">
+				<v>10</v>
+			</c>
+			<c r="C12" s="4" t="s">
+				<v>11</v>
+			</c>
+			<c r="D12" s="4" t="s">
+				<v>11</v>
+			</c>
+		</row>
+		<row r="13" spans="2:4" ht="14.25">
+			<c r="B13" s="4" t="s">
+				<v>12</v>
+			</c>
+			<c r="C13" s="11">
+				<v>200941</v>
+			</c>
+			<c r="D13" s="1">
+				<v>201900</v>
+			</c>
+		</row>
+		<row r="14" spans="2:4" ht="14.25">
+			<c r="B14" s="4" t="s">
+				<v>13</v>
+			</c>
+			<c r="C14" s="10">
+				<v>123</v>
+			</c>
+			<c r="D14" s="10">
+				<v>124</v>
+			</c>
+		</row>
+		<row r="15" spans="2:4" ht="14.25">
+			<c r="B15" s="4" t="s">
+				<v>14</v>
+			</c>
+			<c r="C15" s="12">
+				<v>123</v>
+			</c>
+			<c r="D15" s="12">
+				<v>124</v>
+			</c>
+		</row>
+		<row r="16" spans="2:4" ht="14.25">
+			<c r="B16" s="4" t="s">
+				<v>15</v>
+			</c>
+			<c r="C16" s="13">
+				<v>0.52459490740740744</v>
+			</c>
+			<c r="D16" s="13">
+				<v>1000.5245949074074</v>
+			</c>
+		</row>
+		<row r="19" spans="4:4" ht="14.25">
+			<c r="D19" s="4" t="s">
+				<v>16</v>
+			</c>
+		</row>
+	</sheetData>
+	<phoneticPr fontId="2" type="noConversion" />
+	<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75"
+		header="0.3" footer="0.3" />
+</worksheet>
