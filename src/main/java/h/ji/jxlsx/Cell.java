@@ -99,7 +99,7 @@ public class Cell {
             // If Excel date == 2/29/1900, will become 3/1/1900 in Java representation
             dayAdjust = 0;
         }
-        calendar.set(startYear, 0, wholeDays + dayAdjust, 0, 0, 0);
+        calendar.set(startYear, Calendar.JANUARY, wholeDays + dayAdjust, 0, 0, 0);
         calendar.set(Calendar.MILLISECOND, millisecondsInDay);
         if (roundSeconds) {
             calendar.add(Calendar.MILLISECOND, 500);
@@ -147,8 +147,7 @@ public class Cell {
     public static int convertColStringToIndex(String ref) {
         int retval = 0;
         char[] refs = ref.toUpperCase().toCharArray();
-        for (int k = 0; k < refs.length; k++) {
-            char thechar = refs[k];
+        for (char thechar : refs) {
             // Character is uppercase letter, find relative value to A
             retval = retval * 26 + thechar - 'A' + 1;
         }

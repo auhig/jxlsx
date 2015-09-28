@@ -25,7 +25,6 @@ public class Workbook {
 
     private boolean date1904 = false;
 
-    //    private final Map<String, String> rels = new HashMap<>();
     private final List<String> sharedStrings = new ArrayList<>();
     private final Map<String, Worksheet> sheets = new LinkedHashMap<>();
 
