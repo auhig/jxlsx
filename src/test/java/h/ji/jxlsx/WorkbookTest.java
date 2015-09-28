@@ -11,11 +11,19 @@ public class WorkbookTest {
 
         try (InputStream is = WorkbookTest.class.getResourceAsStream("/Test.xlsx")) {
             Workbook wb = new Workbook(is);
-            Worksheet sh = wb.getSheet("Sheet1");
-            sh.getCells().forEach((c) -> {
-                System.out.println(c.getCellRef() + " = " + c.getValue());
+            wb.getSheetNames().forEach(n -> {
+                Worksheet sh = wb.getSheet(n);
+                System.out.println(sh.getName() + " ------------------------");
+                sh.getCells().forEach((c) -> {
+                    System.out.println(c.getRef() + " = " + c.getValue());
+                });
+                System.out.println();
+
+                if (n.equals("Sheet1")) {
+                    System.out.println(sh.getCell("C6").getDateValue());
+                    System.out.println(sh.getCell("C7").getDateValue());
+                }
             });
         }
-
     }
 }

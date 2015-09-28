@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -15,11 +16,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 public class Workbook {
 
     private static final String[] IGNORE_FILE_PREFIX = {"xl/theme/", "xl/styles.xml"};
+
+    private boolean date1904 = false;
 
     //    private final Map<String, String> rels = new HashMap<>();
     private final List<String> sharedStrings = new ArrayList<>();
@@ -37,7 +41,7 @@ public class Workbook {
                 continue;
             }
             byte[] ba = readZip(zis, ze);
-            Document doc = XMLUtil.parse(ba);
+            Document doc = XmlUtil.parse(ba);
             documents.put(name, doc);
         }
         parse(documents);
@@ -55,41 +59,54 @@ public class Workbook {
         return ba;
     }
 
-    private void parse(Map<String, Document> documents) throws XPathExpressionException {
+    private void parse(Map<String, Document> documents) {
 
         // 读取workbook.xml.rels
         Map<String, String> relsIdTargetMap = new HashMap<>();
         Document relsDoc = documents.get("xl/_rels/workbook.xml.rels");
-        XMLUtil.forEachByTagName(relsDoc, "Relationship", n -> {
-            String id = XMLUtil.getAttributeValue(n, "Id");
-            String target = XMLUtil.getAttributeValue(n, "Target");
+        XmlUtil.forEachByTagName(relsDoc, "Relationship", n -> {
+            String id = XmlUtil.getAttributeValue(n, "Id");
+            String target = XmlUtil.getAttributeValue(n, "Target");
             relsIdTargetMap.put(id, target);
         });
 
         // 读取sharedStrings.xml
         Document sharedStringsDoc = documents.get("xl/sharedStrings.xml");
-        XMLUtil.forEachByXPath(sharedStringsDoc, "/sst/si/t", n -> sharedStrings.add(n.getTextContent()));
+        if (sharedStringsDoc != null) {
+            XmlUtil.forEachByXPath(sharedStringsDoc, "/sst/si/t", n -> sharedStrings.add(n.getTextContent()));
+        }
 
         // 读取workbook.xml
         Document workbookDoc = documents.get("xl/workbook.xml");
-        XMLUtil.forEachByXPath(workbookDoc, "/workbook/sheets/sheet", n -> {
-            String name = XMLUtil.getAttributeValue(n, "name"); // Sheet的名字
-            String rId = XMLUtil.getAttributeValue(n, "r:id");  // rId
+        XmlUtil.forEachByXPath(workbookDoc, "/workbook/sheets/sheet", n -> {
+            String name = XmlUtil.getAttributeValue(n, "name"); // Sheet的名字
+            String rId = XmlUtil.getAttributeValue(n, "r:id");  // rId
             String target = relsIdTargetMap.get(rId);           // rId对应的Target
             Document sheetDoc = documents.get("xl/" + target);  // 获取该Sheet对应的Document
-            Worksheet sh = null;
-            try {
-                sh = new Worksheet(this, name, sheetDoc);
-            } catch (XPathExpressionException e) {
-                e.printStackTrace();
-            }
+            Worksheet sh = new Worksheet(this, name, sheetDoc);
             sheets.put(name, sh);
         });
+        // workbookPr
+        Node workbookPr = XmlUtil.getByXPath(workbookDoc, "/workbook/workbookPr");
+        if (workbookPr != null) {
+            String v = XmlUtil.getAttributeValue(workbookPr, "date1904");
+            if ("1".equals(v)) {
+                date1904 = true;
+            }
+        }
 
     }
 
     String getSharedString(int index) {
         return sharedStrings.get(index);
+    }
+
+    boolean isDate1904() {
+        return date1904;
+    }
+
+    public Set<String> getSheetNames() {
+        return sheets.keySet();
     }
 
     public Worksheet getSheet(String name) {

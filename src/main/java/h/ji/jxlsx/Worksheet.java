@@ -4,32 +4,21 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.xml.xpath.XPathExpressionException;
-
 import org.w3c.dom.Document;
 
 public class Worksheet {
 
     private Workbook wb;
-    private Map<String, Cell> cells = new LinkedHashMap<>();
     private String name;
+    private Map<String, Cell> cells = new LinkedHashMap<>();
 
-    public Worksheet(Workbook wb, String name, Document doc) throws XPathExpressionException {
+    public Worksheet(Workbook wb, String name, Document doc) {
         this.wb = wb;
         this.name = name;
-        XMLUtil.forEachByXPath(doc, "/worksheet/sheetData/row", n -> {
-            XMLUtil.forEach(n.getChildNodes(), c -> {
-                String ref = XMLUtil.getAttributeValue(c, "r"); // 例如“C3”
-                String s = XMLUtil.getAttributeValue(c, "s");
-                String t = XMLUtil.getAttributeValue(c, "t");
-                String v = null;
-                if (c.getChildNodes().getLength() == 1) {
-                    v = c.getChildNodes().item(0).getTextContent();
-                } else if (c.getChildNodes().getLength() != 0) {
-                    throw new IllegalArgumentException("Size of child node must equal 1 or 0");
-                }
-                Cell cell = new Cell(this, ref, s, t, v);
-                this.cells.put(ref, cell);
+        XmlUtil.forEachByXPath(doc, "/worksheet/sheetData/row", n -> {
+            XmlUtil.forEach(n.getChildNodes(), c -> {
+                Cell cell = new Cell(this, c);
+                this.cells.put(cell.getRef(), cell);
             });
         });
     }
@@ -38,8 +27,29 @@ public class Worksheet {
         return wb;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Cell getCell(int row, int column) {
+        String ref = Cell.getCellRef(row, column);
+        return cells.get(ref);
+    }
+
+    public Cell getCell(String ref) {
+        return cells.get(ref);
+    }
+
     public Collection<Cell> getCells() {
         return cells.values();
+    }
+
+    public int getRowNum() {
+        return 0;
+    }
+
+    public int getColumnNum() {
+        return 0;
     }
 
 }

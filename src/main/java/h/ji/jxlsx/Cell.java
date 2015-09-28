@@ -1,33 +1,122 @@
 package h.ji.jxlsx;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 public class Cell {
 
-    private Worksheet sh;
-    private String cellRef;
+    public static final int SECONDS_PER_MINUTE = 60;
+    public static final int MINUTES_PER_HOUR = 60;
+    public static final int HOURS_PER_DAY = 24;
+    public static final int SECONDS_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR * SECONDS_PER_MINUTE;
+    public static final long DAY_MILLISECONDS = SECONDS_PER_DAY * 1000L;
 
+    private Worksheet sh;
+    private String ref;
     private String s;
     private String t;
     private String v;
 
-    public Cell(Worksheet sh, String cellRef, String s, String t, String v) {
+    public Cell(Worksheet sh, Node node) {
         this.sh = sh;
-        this.cellRef = cellRef;
-        this.s = s;
-        this.t = t;
-        this.v = v;
+        this.ref = XmlUtil.getAttributeValue(node, "r"); // 例如“C3”
+        this.s = XmlUtil.getAttributeValue(node, "s");
+        this.t = XmlUtil.getAttributeValue(node, "t");
+        NodeList nl = node.getChildNodes();
+        for (int i = 0; i < nl.getLength(); i++) {
+            if ("v".equals(nl.item(i).getNodeName())) {
+                v = nl.item(i).getTextContent();
+            }
+        }
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T getValue() {
+    public Worksheet getWroksheet() {
+        return sh;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public String getStyle() {
+        return s;
+    }
+
+    public String getRawValue() {
+        return v;
+    }
+
+    public String getValue() {
         if ("s".equals(t)) {
             int index = Integer.parseInt(v);
-            return (T) sh.getWorkbook().getSharedString(index);
+            return sh.getWorkbook().getSharedString(index);
         }
-        return (T) v;
+        return v;
     }
 
-    public String getCellRef() {
-        return cellRef;
+    public Date getDateValue() {
+        double date = getNumericValue();
+        boolean use1904windowing = getWroksheet().getWorkbook().isDate1904();
+        Calendar cal = getJavaCalendar(date, use1904windowing, null, false);
+        return cal.getTime();
+    }
+
+    public static Calendar getJavaCalendar(double date, boolean use1904windowing, TimeZone timeZone, boolean roundSeconds) {
+        if (!isValidExcelDate(date)) {
+            return null;
+        }
+        int wholeDays = (int)Math.floor(date);
+        int millisecondsInDay = (int)((date - wholeDays) * DAY_MILLISECONDS + 0.5);
+        Calendar calendar;
+        if (timeZone != null) {
+            calendar = new GregorianCalendar(timeZone);
+        } else {
+            calendar = new GregorianCalendar();     // using default time-zone
+        }
+        setCalendar(calendar, wholeDays, millisecondsInDay, use1904windowing, roundSeconds);
+        return calendar;
+    }
+
+    public static boolean isValidExcelDate(double value) {
+        return value > -Double.MIN_VALUE;
+    }
+
+    public static void setCalendar(Calendar calendar, int wholeDays,
+            int millisecondsInDay, boolean use1904windowing,
+            boolean roundSeconds) {
+        int startYear = 1900;
+        int dayAdjust = -1; // Excel thinks 2/29/1900 is a valid date, which it isn't
+        if (use1904windowing) {
+            startYear = 1904;
+            dayAdjust = 1;  // 1904 date windowing uses 1/2/1904 as the first day
+        } else if (wholeDays < 61) {
+            // Date is prior to 3/1/1900, so adjust because Excel thinks 2/29/1900 exists
+            // If Excel date == 2/29/1900, will become 3/1/1900 in Java representation
+            dayAdjust = 0;
+        }
+        calendar.set(startYear, 0, wholeDays + dayAdjust, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, millisecondsInDay);
+        if (roundSeconds) {
+            calendar.add(Calendar.MILLISECOND, 500);
+            calendar.clear(Calendar.MILLISECOND);
+        }
+    }
+
+    public double getNumericValue() {
+        return Double.parseDouble(v);
+    }
+
+    public String getStringValue() {
+        return getValue();
+    }
+
+    public boolean isNull() {
+        return v == null;
     }
 
     public static String getCellRef(int row, int column) {
