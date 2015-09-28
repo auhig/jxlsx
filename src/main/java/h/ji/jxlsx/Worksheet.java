@@ -44,12 +44,4 @@ public class Worksheet {
         return cells.values();
     }
 
-    public int getRowNum() {
-        return 0;
-    }
-
-    public int getColumnNum() {
-        return 0;
-    }
-
 }

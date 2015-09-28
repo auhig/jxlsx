@@ -25,5 +25,18 @@ public class WorkbookTest {
                 }
             });
         }
+
+        //        try (InputStream is = WorkbookTest.class.getResourceAsStream("/EquipLevelPackage.xlsx")) {
+        //            Workbook wb = new Workbook(is);
+        //            wb.getSheetNames().forEach(n -> {
+        //                Worksheet sh = wb.getSheet(n);
+        //                System.out.println(sh.getName() + " ------------------------");
+        //                sh.getCells().forEach((c) -> {
+        //                    System.out.println(c.getRef() + " = " + c.getValue());
+        //                });
+        //                System.out.println();
+        //            });
+        //        }
+
     }
 }

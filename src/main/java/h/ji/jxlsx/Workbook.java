@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 
 public class Workbook {
 
-    private static final String[] IGNORE_FILE_PREFIX = {"xl/theme/", "xl/styles.xml"};
+    private static final String[] IGNORE_FILE_PREFIX = {"xl/theme/", "xl/styles.xml", "xl/comments"};
 
     private boolean date1904 = false;
 
@@ -37,6 +37,9 @@ public class Workbook {
             }
             String name = ze.getName();
             if (Stream.of(IGNORE_FILE_PREFIX).anyMatch(name::startsWith)) {
+                continue;
+            }
+            if (!name.endsWith(".xml") && !name.endsWith(".rels")) {
                 continue;
             }
             byte[] ba = readZip(zis, ze);
