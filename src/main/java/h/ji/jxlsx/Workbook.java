@@ -1,8 +1,5 @@
 package h.ji.jxlsx;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -14,6 +11,9 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -23,7 +23,6 @@ public class Workbook {
 
     //    private final Map<String, String> rels = new HashMap<>();
     private final List<String> sharedStrings = new ArrayList<>();
-
     private final Map<String, Worksheet> sheets = new LinkedHashMap<>();
 
     public Workbook(InputStream is) throws IOException, SAXException, ParserConfigurationException, XPathExpressionException {
