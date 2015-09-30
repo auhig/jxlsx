@@ -16,15 +16,14 @@ public class Row {
     public Row(Worksheet sh, Node node) {
         this.sh = sh;
         String r = XmlUtil.getAttributeValue(node, "r");
-        this.num = Integer.parseInt(r);
+        this.num = Integer.parseInt(r) - 1;
         NodeList children = node.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node n = children.item(i);
-            if (!"c".equals(n.getNodeName())) {
-                continue;
+            if ("c".equals(n.getNodeName())) {
+                Cell cell = new Cell(this, n);
+                this.cells.put(cell.getColumnNum(), cell);
             }
-            Cell cell = new Cell(this, n);
-            this.cells.put(cell.getColumnNum(), cell);
         }
     }
 

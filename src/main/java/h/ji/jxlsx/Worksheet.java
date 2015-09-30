@@ -89,6 +89,10 @@ public class Worksheet {
         return r == null ? null : r.getCell(column);
     }
 
+    public Row getRow(int row) {
+        return rows.get(row);
+    }
+
     public Collection<Row> getRows() {
         return rows.values();
     }

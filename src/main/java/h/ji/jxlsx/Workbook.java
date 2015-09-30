@@ -12,12 +12,8 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 public class Workbook {
 
@@ -28,7 +24,7 @@ public class Workbook {
     private final List<String> sharedStrings = new ArrayList<>();
     private final Map<String, Worksheet> sheets = new LinkedHashMap<>();
 
-    public Workbook(InputStream is) throws IOException, SAXException, ParserConfigurationException, XPathExpressionException {
+    public Workbook(InputStream is) throws IOException {
         Map<String, Document> documents = new HashMap<>();
         ZipInputStream zis = new ZipInputStream(is);
         for (ZipEntry ze = zis.getNextEntry(); ze != null; ze = zis.getNextEntry()) {

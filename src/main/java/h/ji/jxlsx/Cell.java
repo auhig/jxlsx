@@ -73,6 +73,10 @@ public class Cell {
         return v == null ? null : Integer.valueOf(v);
     }
 
+    public Long getLongValue() {
+        return v == null ? null : Long.valueOf(v);
+    }
+
     public Float getFloatValue() {
         return v == null ? null : Float.valueOf(v);
     }
@@ -140,7 +144,7 @@ public class Cell {
         return getValue();
     }
 
-    public boolean isNull() {
+    public boolean isNullValue() {
         return v == null;
     }
 

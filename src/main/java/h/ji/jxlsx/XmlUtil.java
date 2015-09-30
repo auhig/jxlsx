@@ -22,12 +22,16 @@ public class XmlUtil {
     private static DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     private static XPathFactory xPathFactory = XPathFactory.newInstance();
 
-    public static Document parse(byte[] ba) throws SAXException, IOException, ParserConfigurationException {
+    public static Document parse(byte[] ba) throws IOException {
         return parse(new ByteArrayInputStream(ba));
     }
 
-    public static Document parse(InputStream is) throws SAXException, IOException, ParserConfigurationException {
-        return documentBuilderFactory.newDocumentBuilder().parse(is);
+    public static Document parse(InputStream is) throws IOException {
+        try {
+            return documentBuilderFactory.newDocumentBuilder().parse(is);
+        } catch (SAXException | ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void forEach(NodeList nl, Consumer<Node> action) {
