@@ -13,7 +13,7 @@ public class WorkbookTest {
             Workbook wb = new Workbook(is);
             wb.getSheetNames().forEach(n -> {
                 Worksheet sh = wb.getSheet(n);
-                System.out.println(sh.getName() + " ------------------------");
+                System.out.println(sh.getName() + " " + sh.getTabColor() + " ------------------------");
                 sh.getRows().forEach(r -> {
                     r.getCells().forEach(c -> {
                         System.out.println(c.getRef() + " = " + c.getValue());

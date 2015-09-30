@@ -69,8 +69,23 @@ public class Cell {
         return v;
     }
 
+    public Integer getIntegerValue() {
+        return v == null ? null : Integer.valueOf(v);
+    }
+
+    public Float getFloatValue() {
+        return v == null ? null : Float.valueOf(v);
+    }
+
+    public Double getDoubleValue() {
+        return v == null ? null : Double.valueOf(v);
+    }
+
     public Date getDateValue() {
-        double date = getNumericValue();
+        Double date = getDoubleValue();
+        if (date == null) {
+            return null;
+        }
         boolean use1904windowing = row.getWorksheet().getWorkbook().isDate1904();
         Calendar cal = getJavaCalendar(date, use1904windowing, null, false);
         return cal.getTime();
