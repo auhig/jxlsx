@@ -18,7 +18,7 @@ public class Cell {
 
     private Row row;
     private String ref;
-    private int columnNumber;
+    private int columnNum;
     private String s;
     private String t;
     private String v;
@@ -26,7 +26,7 @@ public class Cell {
     public Cell(Row row, Node node) {
         this.row = row;
         this.ref = XmlUtil.getAttributeValue(node, "r"); // 例如“C3”
-        this.columnNumber = convertCellRef(ref)[1];
+        this.columnNum = convertCellRef(ref)[1];
         this.s = XmlUtil.getAttributeValue(node, "s");
         this.t = XmlUtil.getAttributeValue(node, "t");
         NodeList nl = node.getChildNodes();
@@ -45,12 +45,12 @@ public class Cell {
         return ref;
     }
 
-    public int getColumnNumber() {
-        return columnNumber;
+    public int getColumnNum() {
+        return columnNum;
     }
 
-    public int getRowNumber() {
-        return row.getNumber();
+    public int getRowNum() {
+        return row.getNum();
     }
 
     public String getStyle() {

@@ -3,6 +3,7 @@ package h.ji.jxlsx;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class PoiTest {
@@ -12,6 +13,8 @@ public class PoiTest {
         InputStream is = PoiTest.class.getResourceAsStream("/Test.xlsx");
         try (XSSFWorkbook wb = new XSSFWorkbook(is)) {
             System.out.println(wb);
+            Sheet sh = wb.getSheetAt(0);
+            System.out.println(sh);
         }
 
     }
