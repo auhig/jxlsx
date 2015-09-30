@@ -16,15 +16,17 @@ public class Cell {
     public static final int SECONDS_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR * SECONDS_PER_MINUTE;
     public static final long DAY_MILLISECONDS = SECONDS_PER_DAY * 1000L;
 
-    private Worksheet sh;
+    private Row row;
     private String ref;
+    private int columnNumber;
     private String s;
     private String t;
     private String v;
 
-    public Cell(Worksheet sh, Node node) {
-        this.sh = sh;
+    public Cell(Row row, Node node) {
+        this.row = row;
         this.ref = XmlUtil.getAttributeValue(node, "r"); // 例如“C3”
+        this.columnNumber = convertCellRef(ref)[1];
         this.s = XmlUtil.getAttributeValue(node, "s");
         this.t = XmlUtil.getAttributeValue(node, "t");
         NodeList nl = node.getChildNodes();
@@ -35,12 +37,20 @@ public class Cell {
         }
     }
 
-    public Worksheet getWroksheet() {
-        return sh;
+    public Row getRow() {
+        return row;
     }
 
     public String getRef() {
         return ref;
+    }
+
+    public int getColumnNumber() {
+        return columnNumber;
+    }
+
+    public int getRowNumber() {
+        return row.getNumber();
     }
 
     public String getStyle() {
@@ -54,14 +64,14 @@ public class Cell {
     public String getValue() {
         if ("s".equals(t)) {
             int index = Integer.parseInt(v);
-            return sh.getWorkbook().getSharedString(index);
+            return row.getWorksheet().getWorkbook().getSharedString(index);
         }
         return v;
     }
 
     public Date getDateValue() {
         double date = getNumericValue();
-        boolean use1904windowing = getWroksheet().getWorkbook().isDate1904();
+        boolean use1904windowing = row.getWorksheet().getWorkbook().isDate1904();
         Calendar cal = getJavaCalendar(date, use1904windowing, null, false);
         return cal.getTime();
     }
@@ -121,6 +131,26 @@ public class Cell {
 
     public static String getCellRef(int row, int column) {
         return convertNumToColString(column) + (row + 1);
+    }
+
+    public static int[] convertCellRef(String ref) {
+        char[] ca = ref.toCharArray();
+        String rowStr = null;
+        String colStr = null;
+        for (int i = 0; i < ca.length; i++) {
+            char c = ca[i];
+            if (c >= '0' && c <= '9') {
+                rowStr = ref.substring(i);
+                colStr = ref.substring(0, i);
+                break;
+            }
+        }
+        if (rowStr == null || colStr == null) {
+            throw new IllegalArgumentException("Error has occurred while parsing " + ref);
+        }
+        int row = Integer.parseInt(rowStr) - 1;
+        int col = convertColStringToIndex(colStr);
+        return new int[] { row, col };
     }
 
     public static String convertNumToColString(int col) {

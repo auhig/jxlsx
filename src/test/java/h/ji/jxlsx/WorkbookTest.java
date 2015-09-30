@@ -14,15 +14,12 @@ public class WorkbookTest {
             wb.getSheetNames().forEach(n -> {
                 Worksheet sh = wb.getSheet(n);
                 System.out.println(sh.getName() + " ------------------------");
-                sh.getCells().forEach((c) -> {
-                    System.out.println(c.getRef() + " = " + c.getValue());
+                sh.getRows().forEach(r -> {
+                    r.getCells().forEach(c -> {
+                        System.out.println(c.getRef() + " = " + c.getValue());
+                    });
                 });
                 System.out.println();
-
-                if (n.equals("Sheet1")) {
-                    System.out.println(sh.getCell("C6").getDateValue());
-                    System.out.println(sh.getCell("C7").getDateValue());
-                }
             });
         }
 

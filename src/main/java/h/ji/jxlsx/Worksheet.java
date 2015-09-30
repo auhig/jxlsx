@@ -10,16 +10,14 @@ public class Worksheet {
 
     private Workbook wb;
     private String name;
-    private Map<String, Cell> cells = new LinkedHashMap<>();
+    private Map<Integer, Row> rows = new LinkedHashMap<>();
 
     public Worksheet(Workbook wb, String name, Document doc) {
         this.wb = wb;
         this.name = name;
         XmlUtil.forEachByXPath(doc, "/worksheet/sheetData/row", n -> {
-            XmlUtil.forEach(n.getChildNodes(), c -> {
-                Cell cell = new Cell(this, c);
-                this.cells.put(cell.getRef(), cell);
-            });
+            Row r = new Row(this, n);
+            rows.put(r.getNumber(), r);
         });
     }
 
@@ -32,16 +30,12 @@ public class Worksheet {
     }
 
     public Cell getCell(int row, int column) {
-        String ref = Cell.getCellRef(row, column);
-        return cells.get(ref);
+        Row r = rows.get(row);
+        return r == null ? null : r.getCell(column);
     }
 
-    public Cell getCell(String ref) {
-        return cells.get(ref);
-    }
-
-    public Collection<Cell> getCells() {
-        return cells.values();
+    public Collection<Row> getRows() {
+        return rows.values();
     }
 
 }
