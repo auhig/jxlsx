@@ -85,6 +85,15 @@ public class Cell {
         return v == null ? null : Double.valueOf(v);
     }
 
+    public Boolean getBolleanValue() {
+        if (v == null) {
+            return null;
+        } else if ("b".equals(t)) {
+            return "1".equals(v);
+        }
+        throw new UnsupportedOperationException("Cell " + ref + " is not boolean format");
+    }
+
     public Date getDateValue() {
         Double date = getDoubleValue();
         if (date == null) {
